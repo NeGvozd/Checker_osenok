@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checker_osenok", "Checker_osenok\Checker_osenok.csproj", "{688588C5-35BF-4A58-9E65-E4ED4448D4F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{688588C5-35BF-4A58-9E65-E4ED4448D4F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{688588C5-35BF-4A58-9E65-E4ED4448D4F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{688588C5-35BF-4A58-9E65-E4ED4448D4F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{688588C5-35BF-4A58-9E65-E4ED4448D4F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E12D5393-EA72-484A-B666-4A825580DC72}
+	EndGlobalSection
+EndGlobal
