@@ -20,17 +20,17 @@ namespace Checker_osenok
         {
             InitializeComponent();
 
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
+            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            //if (openFileDialog.ShowDialog() == DialogResult.OK)
+            //{
 
-                var html = File.ReadAllText(openFileDialog.FileName, Encoding.Default);
-                var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
-                if (res.Count == 0)
-                    richTextBox1.Text = "net";
-                result = res.Cast<Match>().Select(x => x.Value).ToArray();
-                Start_Work(result);
-            }
+            //    var html = File.ReadAllText(openFileDialog.FileName, Encoding.Default);
+            //    var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
+            //    if (res.Count == 0)
+            //        richTextBox1.Text = "net";
+            //    result = res.Cast<Match>().Select(x => x.Value).ToArray();
+            //    Start_Work(result);
+            //}
             
         }
 
@@ -110,8 +110,11 @@ namespace Checker_osenok
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (Keys.Enter == e.KeyCode && richTextBox1.Text.Length>10)
-            {
+           
+        }
+
+        private void go_Click(object sender, EventArgs e)
+        {          
                 var html = richTextBox1.Text;
                 var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
                 richTextBox1.Text = null;
@@ -120,7 +123,6 @@ namespace Checker_osenok
                 result = res.Cast<Match>().Select(x => x.Value).ToArray();
                 richTextBox1.ReadOnly = true;
                 Start_Work(result);
-            }
         }
     }
 }

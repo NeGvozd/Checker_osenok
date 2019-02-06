@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.go = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -39,10 +40,20 @@
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(966, 505);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            // 
+            // go
+            // 
+            this.go.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.go.Location = new System.Drawing.Point(876, 0);
+            this.go.Name = "go";
+            this.go.Size = new System.Drawing.Size(90, 29);
+            this.go.TabIndex = 1;
+            this.go.Text = "Начать";
+            this.go.UseVisualStyleBackColor = true;
+            this.go.Click += new System.EventHandler(this.go_Click);
             // 
             // Form1
             // 
@@ -50,6 +61,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
             this.ClientSize = new System.Drawing.Size(966, 505);
+            this.Controls.Add(this.go);
             this.Controls.Add(this.richTextBox1);
             this.Name = "Form1";
             this.Opacity = 0.8D;
@@ -64,6 +76,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button go;
     }
 }
 
