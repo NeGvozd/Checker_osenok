@@ -112,7 +112,14 @@ namespace Checker_osenok
         {
             if (Keys.Enter == e.KeyCode && richTextBox1.Text.Length>10)
             {
-
+                var html = richTextBox1.Text;
+                var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
+                richTextBox1.Text = null;
+                if (res.Count == 0)
+                    richTextBox1.Text = "net";
+                result = res.Cast<Match>().Select(x => x.Value).ToArray();
+                richTextBox1.ReadOnly = true;
+                Start_Work(result);
             }
         }
     }
