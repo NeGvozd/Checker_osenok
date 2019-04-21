@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Net;
+using System.Diagnostics;
 
 namespace Checker_osenok
 {
@@ -100,7 +101,8 @@ namespace Checker_osenok
                       
         private void Form1_Load(object sender, EventArgs e)
         {
-            //System.Net.WebRequest reqGET = System.Net.WebRequest.Create(@"https://schools.school.mosreg.ru/marks.aspx?school=49652&index=7&tab=period&homebasededucation=False");
+            webBrowser1.Navigate("https://uslugi.mosreg.ru/obr/school");
+            //System.Net.WebRequest reqGET = System.Net.WebRequest.Create(@"");
             //System.Net.WebResponse resp = reqGET.GetResponse();
             //System.IO.Stream stream = resp.GetResponseStream();
             //System.IO.StreamReader sr = new System.IO.StreamReader(stream);
@@ -114,15 +116,23 @@ namespace Checker_osenok
         }
 
         private void go_Click(object sender, EventArgs e)
-        {          
-                var html = richTextBox1.Text;
-                var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
-                richTextBox1.Text = null;
-                if (res.Count == 0)
-                    richTextBox1.Text = "net";
-                result = res.Cast<Match>().Select(x => x.Value).ToArray();
-                richTextBox1.ReadOnly = true;
-                Start_Work(result);
+        {
+            var html = webBrowser1.DocumentText;
+            webBrowser1.Visible = false;
+            //var html = richTextBox1.Text;
+            var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
+            richTextBox1.Text = null;
+            if (res.Count == 0)
+                richTextBox1.Text = "net";
+            result = res.Cast<Match>().Select(x => x.Value).ToArray();
+            richTextBox1.ReadOnly = true;
+            Start_Work(result);
+
+        }
+
+        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
         }
     }
 }
