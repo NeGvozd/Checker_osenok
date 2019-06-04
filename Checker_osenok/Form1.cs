@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Net;
@@ -53,7 +54,7 @@ namespace Checker_osenok
         }
 
       void Print(MatchCollection matches)
-        {
+        {          
             foreach (Match match in matches)
             {
                 var str = match.Groups[0].ToString();
@@ -86,9 +87,9 @@ namespace Checker_osenok
                     av += (int)Char.GetNumericValue(marks[marks.Count-1][i2]);
                 }
             av /= marks[marks.Count - 1].Length;
-            OutPut += " ср. балл:" + av;
+            OutPut += " ср. балл: " + Math.Round(av,2);
             if (marks[marks.Count - 1].Length < 3)
-                OutPut += "; не хватает оценок:" + (3 - marks[marks.Count - 1].Length);
+                OutPut += "; не хватает оценок: " + (3 - marks[marks.Count - 1].Length);
             if (Math.Round(av) < 5)
             {
                 float res2 = (4.6f - av) * marks[marks.Count - 1].Length;
@@ -117,16 +118,26 @@ namespace Checker_osenok
 
         private void go_Click(object sender, EventArgs e)
         {
-            var html = webBrowser1.DocumentText;
-            webBrowser1.Visible = false;
-            //var html = richTextBox1.Text;
-            var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
-            richTextBox1.Text = null;
-            if (res.Count == 0)
-                richTextBox1.Text = "net";
-            result = res.Cast<Match>().Select(x => x.Value).ToArray();
-            richTextBox1.ReadOnly = true;
-            Start_Work(result);
+            if (go.Text == "Начать")
+            {
+                var html = webBrowser1.DocumentText;
+                webBrowser1.Visible = false;
+                //var html = richTextBox1.Text;
+                var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
+                richTextBox1.Text = null;
+                if (res.Count == 0)
+                    richTextBox1.Text = "net";
+                result = res.Cast<Match>().Select(x => x.Value).ToArray();
+                richTextBox1.ReadOnly = true;
+                Start_Work(result);
+                go.Text = "Отменить";
+            }
+            else
+            {
+                richTextBox1.Text = null;
+                webBrowser1.Visible = true;
+                go.Text = "Начать";
+            }
 
         }
 
