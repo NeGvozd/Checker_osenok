@@ -22,6 +22,47 @@ namespace Checker_osenok
         {
             InitializeComponent();
 
+            var subject = new DataGridViewColumn();
+            subject.HeaderText = "Предметы";
+            subject.Name = "subjectBox";
+            subject.Width = 350;
+            subject.ReadOnly = true;
+            subject.Frozen = true;
+            subject.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            subject.CellTemplate = new DataGridViewTextBoxCell();
+
+            var mark = new DataGridViewColumn();
+            mark.HeaderText = "Оценки";
+            mark.Name = "marks";
+            mark.ReadOnly = true;
+            mark.Frozen = true;
+            mark.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            mark.CellTemplate = new DataGridViewTextBoxCell();
+
+            var averageMark = new DataGridViewColumn();
+            averageMark.HeaderText = "Средний балл";
+            averageMark.Name = "averagemark";
+            averageMark.ReadOnly = true;
+            averageMark.Frozen = true;
+            averageMark.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            averageMark.CellTemplate = new DataGridViewTextBoxCell();
+
+            var correctionBox = new DataGridViewColumn();
+            correctionBox.HeaderText = "Повышение балла";
+            correctionBox.Name = "correction";
+            correctionBox.ReadOnly = true;
+            correctionBox.Frozen = true;
+            correctionBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            correctionBox.CellTemplate = new DataGridViewTextBoxCell();
+
+            tableBox.Columns.Add(subject);
+            tableBox.Columns.Add(mark);
+            tableBox.Columns.Add(averageMark);
+            tableBox.Columns.Add(correctionBox);
+            tableBox.AllowUserToAddRows = false;
+            tableBox.Font = new Font("Microsoft Sans Serif", 17);
+            tableBox.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            //tableBox.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             //OpenFileDialog openFileDialog = new OpenFileDialog();
             //if (openFileDialog.ShowDialog() == DialogResult.OK)
             //{
@@ -33,7 +74,7 @@ namespace Checker_osenok
             //    result = res.Cast<Match>().Select(x => x.Value).ToArray();
             //    Start_Work(result);
             //}
-            
+
         }
 
         void Start_Work(string[] result)
@@ -53,13 +94,16 @@ namespace Checker_osenok
             }
         }
 
-      void Print(MatchCollection matches)
-        {          
+        void Print(MatchCollection matches)
+        {
             foreach (Match match in matches)
             {
                 var str = match.Groups[0].ToString();
-                richTextBox1.Text += str.Substring(18, str.Length-18);
-                lessons.Add(str.Substring(18, str.Length-18));
+                var text = str.Substring(18, str.Length - 18);
+                richTextBox1.Text += text;
+                lessons.Add(text);
+                tableBox.Rows.Add();
+                tableBox["subjectBox", tableBox.Rows.Count - 1].Value = text;
                 richTextBox1.Text += "\r\n";
             }
         }
@@ -70,39 +114,50 @@ namespace Checker_osenok
             foreach (Match match in matches)
             {
                 var str = match.Groups[0].ToString();
-                richTextBox1.Text += str.Substring(13, str.Length - 13);
-                marks[marks.Count-1] += str.Substring(13, str.Length - 13);
-                richTextBox1.Text += " ";
+                var text = str.Substring(13, str.Length - 13);
+                //richTextBox1.Text += text;
+                marks[marks.Count - 1] += text;
+                //richTextBox1.Text += " ";
+                tableBox["marks", tableBox.Rows.Count - 1].Value += text + " ";
             }
-            richTextBox1.Text += Average();
+            var av = Average();
+            tableBox["averagemark", tableBox.Rows.Count - 1].Value = Math.Round(av, 2);
+            tableBox["correction", tableBox.Rows.Count - 1].Value = HowToCorrect(av);
+            //richTextBox1.Text += Average();
             richTextBox1.Text += "\r\n ";
         }
 
-      public string Average()
+        public float Average()
         {
             float av = 0;
-            string OutPut = "";
-                for (int i2=0; i2<marks[marks.Count-1].Length; i2++)
-                {
-                    av += (int)Char.GetNumericValue(marks[marks.Count-1][i2]);
-                }
+            for (int i2 = 0; i2 < marks[marks.Count - 1].Length; i2++)
+            {
+                av += (int)Char.GetNumericValue(marks[marks.Count - 1][i2]);
+            }
             av /= marks[marks.Count - 1].Length;
-            OutPut += " ср. балл: " + Math.Round(av,2);
+            return av;
+        }
+
+        public string HowToCorrect(float av)
+        {
+            string OutPut = "";
             if (marks[marks.Count - 1].Length < 3)
-                OutPut += "; не хватает оценок: " + (3 - marks[marks.Count - 1].Length);
+                OutPut += "не хватает оценок: " + (3 - marks[marks.Count - 1].Length) + ";";
             if (Math.Round(av) < 5)
             {
                 float res2 = (4.6f - av) * marks[marks.Count - 1].Length;
                 av = res2 + 1;
             }
             else av = 0;
-            OutPut += "; до \"Отличного\" нужно еще пятерок: " + Math.Round(av);
+            OutPut += " до \"Отличного\" нужно еще пятерок: " + Math.Round(av);
             return OutPut;
         }
-                      
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             webBrowser1.Navigate("https://uslugi.mosreg.ru/obr/school");
+
             //System.Net.WebRequest reqGET = System.Net.WebRequest.Create(@"");
             //System.Net.WebResponse resp = reqGET.GetResponse();
             //System.IO.Stream stream = resp.GetResponseStream();
@@ -113,7 +168,7 @@ namespace Checker_osenok
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-           
+
         }
 
         private void go_Click(object sender, EventArgs e)
@@ -121,8 +176,9 @@ namespace Checker_osenok
             if (go.Text == "Начать")
             {
                 var html = webBrowser1.DocumentText;
+                //var html = File.ReadAllText(@"124.txt");
                 webBrowser1.Visible = false;
-                //var html = richTextBox1.Text;
+                var html = richTextBox1.Text;
                 var res = Regex.Matches(html, @"<td class=\Ds2\D>.*</td>");
                 richTextBox1.Text = null;
                 if (res.Count == 0)
@@ -131,6 +187,8 @@ namespace Checker_osenok
                 richTextBox1.ReadOnly = true;
                 Start_Work(result);
                 go.Text = "Отменить";
+
+                richTextBox1.Visible = false;
             }
             else
             {

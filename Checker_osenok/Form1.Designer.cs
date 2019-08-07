@@ -31,6 +31,8 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.go = new System.Windows.Forms.Button();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.tableBox = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.tableBox)).BeginInit();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -64,7 +66,17 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(966, 505);
             this.webBrowser1.TabIndex = 2;
+            this.webBrowser1.Visible = false;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
+            // 
+            // tableBox
+            // 
+            this.tableBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableBox.Location = new System.Drawing.Point(0, 0);
+            this.tableBox.Name = "tableBox";
+            this.tableBox.Size = new System.Drawing.Size(966, 505);
+            this.tableBox.TabIndex = 3;
             // 
             // Form1
             // 
@@ -75,11 +87,13 @@
             this.Controls.Add(this.go);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.tableBox);
             this.Name = "Form1";
             this.Text = "Cheker_osenok";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            ((System.ComponentModel.ISupportInitialize)(this.tableBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -89,6 +103,7 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button go;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.DataGridView tableBox;
     }
 }
 
