@@ -18,9 +18,13 @@ namespace Checker_osenok
         public List<string> lessons = new List<string>();
         public List<string> marks = new List<string>();
         public string[] result;
+        string forFive, forFour, forThree;
+        string shortage=null;
         public Form1()
         {
             InitializeComponent();
+
+            tipsPanel.SelectedIndex = 0;
 
             var subject = new DataGridViewColumn();
             subject.HeaderText = "Предметы";
@@ -138,25 +142,54 @@ namespace Checker_osenok
             return av;
         }
 
+
         public string HowToCorrect(float av)
         {
             string OutPut = "";
+            forThree = forFour = forFive = null;
             if (marks[marks.Count - 1].Length < 3)
-                OutPut += "не хватает оценок: " + (3 - marks[marks.Count - 1].Length) + ";";
+                shortage = "не хватает оценок: " + (3 - marks[marks.Count - 1].Length) + ";";
+            if (Math.Round(av) < 3)
+            {
+                float res2 = (2.6f - av) * marks[marks.Count - 1].Length;
+                forThree = $" нужно ещё пятерок: {Math.Round(res2 + 1)}";
+            }
+            if (Math.Round(av) < 4)
+            {
+                float res2 = (3.6f - av) * marks[marks.Count - 1].Length;
+                forFour = $" нужно ещё пятерок: {Math.Round(res2 + 1)}";
+            }
             if (Math.Round(av) < 5)
             {
-                float res2 = (4.6f - av) * marks[marks.Count - 1].Length;
-                av = res2 + 1;
+                float res2 = (4.6f - av) * marks[marks.Count - 1].Length;                
+                forFive = $" нужно ещё пятерок: {Math.Round(res2 + 1)}";
             }
             else av = 0;
-            OutPut += " до \"Отличного\" нужно еще пятерок: " + Math.Round(av);
-            return OutPut;
+            switch (Point())
+            {
+                case 3:
+                    OutPut = forThree;
+                    break;
+                case 4:
+                    OutPut = forFour;
+                    break;
+                case 5:
+                    OutPut = forFive;
+                    break;
+            }
+            //OutPut += " до \"Отличного\" нужно еще пятерок: " + Math.Round(av);
+            return shortage + OutPut;
         }
 
-
+        private int Point()
+        {//возвращает оценку для советов
+            var text = tipsPanel.SelectedItem.ToString();
+            return int.Parse(text.Last()+"");
+        }
+        
         private void Form1_Load(object sender, EventArgs e)
         {
-            webBrowser1.Navigate("https://uslugi.mosreg.ru/obr/school");
+            //webBrowser1.Navigate("https://uslugi.mosreg.ru/obr/school");
 
             //System.Net.WebRequest reqGET = System.Net.WebRequest.Create(@"");
             //System.Net.WebResponse resp = reqGET.GetResponse();
@@ -171,11 +204,19 @@ namespace Checker_osenok
 
         }
 
+        private void TipsPanel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int i=0; i<tableBox.Rows.Count; i++)
+            {
+                tableBox["correction", i].Value = HowToCorrect(Convert.ToSingle(tableBox["averagemark", i].Value));
+            }
+        }
+
         private void go_Click(object sender, EventArgs e)
         {
             if (go.Text == "Начать")
             {
-                var html = webBrowser1.DocumentText;
+                //var html = webBrowser1.DocumentText;
                 //var html = File.ReadAllText(@"124.txt");
                 webBrowser1.Visible = false;
                 var html = richTextBox1.Text;
