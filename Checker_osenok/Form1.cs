@@ -142,6 +142,17 @@ namespace Checker_osenok
             return av;
         }
 
+        private int correction(float average, int count, float mark)
+        {
+            var sum = average * count;
+            while (Math.Round(average, 2) <=mark)
+            {
+                sum += 5;
+                count++;
+                average = sum / count;
+            }
+            return count;
+        }
 
         public string HowToCorrect(float av)
         {
@@ -151,18 +162,24 @@ namespace Checker_osenok
                 shortage = "не хватает оценок: " + (3 - marks[marks.Count - 1].Length) + ";";
             if (Math.Round(av) < 3)
             {
-                float res2 = (2.6f - av) * marks[marks.Count - 1].Length;
-                forThree = $" нужно ещё пятерок: {Math.Round(res2 + 1)}";
+                float res2 = correction(av, marks[marks.Count - 1].Length, 2.6f)
+                    - marks[marks.Count - 1].Length;
+                //float res2 = (2.6f - av) * marks[marks.Count - 1].Length;
+                forThree = $" нужно ещё пятерок: {Math.Round(res2)}";
             }
             if (Math.Round(av) < 4)
             {
-                float res2 = (3.6f - av) * marks[marks.Count - 1].Length;
-                forFour = $" нужно ещё пятерок: {Math.Round(res2 + 1)}";
+                //float res2 = (3.6f - av) * marks[marks.Count - 1].Length;
+                float res2 = correction(av, marks[marks.Count - 1].Length, 3.6f)
+                    - marks[marks.Count - 1].Length;
+                forFour = $" нужно ещё пятерок: {Math.Round(res2)}";
             }
             if (Math.Round(av) < 5)
             {
-                float res2 = (4.6f - av) * marks[marks.Count - 1].Length;                
-                forFive = $" нужно ещё пятерок: {Math.Round(res2 + 1)}";
+                //float res2 = (4.6f - av) * marks[marks.Count - 1].Length;
+                float res2 = correction(av, marks[marks.Count - 1].Length, 4.6f)
+                    - marks[marks.Count - 1].Length;
+                forFive = $" нужно ещё пятерок: {Math.Round(res2)}";
             }
             else av = 0;
             switch (Point())
